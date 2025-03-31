@@ -91,7 +91,7 @@ Volume 32 on Shelf 2 of Wall 3 of Hexagon
 
 OR
 
-<p><code>󠁐󠁡󠁧󠁥󠀺󠀠󠁯󠁮󠁥󠀭󠁴󠁷󠁯󠀭󠁯󠁮󠁥</code></p>
+```<p><code>󠁐󠁡󠁧󠁥󠀺󠀠󠁯󠁮󠁥󠀭󠁴󠁷󠁯󠀭󠁯󠁮󠁥</code></p>```
 
 #### Extract the hidden text as per this guide
 
