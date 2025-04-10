@@ -1,63 +1,101 @@
-# website-ctf-solution
-Solution to the two CTF puzzles embedded in the personal-site
+# CTF Challenge: Decoding the Hidden Layers of My Personal Site
 
-## Part 1: Moorse Code SVG (fake)
+## Executive Summary
 
-### Alt Text Hint
+This Capture-The-Flag (CTF) challenge has been carefully designed and embedded into a personal website to test both the ingenuity and persistence of participants. The challenge comprises two interconnected puzzles. The first part, involving a “Moorse Code SVG,” serves as a clever decoy. It leads curious solvers on a visual and textual journey that ultimately reveals a well-known video link—a classic rick roll. The true test, however, lies in the second part, where subtle hints hidden in meta tags and SVG metadata direct participants towards the mysterious Library of Babel. This multi-layered puzzle demands careful inspection of HTML elements, decoding of Base64 strings, and navigation through a virtual labyrinth of encoded instructions. In essence, the challenge is not only about finding a flag but about experiencing the beauty of mystery and the art of problem-solving.
 
-Inspect the HTML element to find a hint in reference to the youtube url structure.
+---
+
+## Detailed Summary
+
+### Overview
+
+This CTF challenge is split into two main parts:  
+1. **Moorse Code SVG (Fake)** – A purposely misleading puzzle that uses visual and textual clues to hint at the next steps in the challenge.  
+2. **Library of Bable (Real)** – A genuine puzzle that uses hidden meta data and encoded messages to lead solvers to the fabled digital Library of Babel for further exploration.
+
+Each segment is crafted to engage participants in different problem-solving techniques, from basic HTML inspection to decoding hidden unicode and multi-layered Base64 messages.
+
+---
+
+### Part 1: Moorse Code SVG (Fake)
+
+#### The Initial Clue – Alt Text in the SVG
+
+Participants start by inspecting the HTML element containing the SVG image. The image tag includes an alt text that hints at a missing piece in the encoding:
 
 ```html
 <img src="/static/img/svg/morse_oscilloscope_style.svg" alt="I forgot to encode the = symbol so youll have to add it back ^_~">
 ```
 
-### Convert the Moorse code to text
+This subtle hint suggests that a critical character (the "=" symbol) is intentionally left out, prompting solvers to “fill in the blanks” as they work through the puzzle.
 
-#### Zoom in on the sine wave graphic to reveal dots and dashes. 
+#### Revealing the Hidden Signal
 
-**OR**
+The challenge provides two approaches to expose the embedded message:
 
-#### View the Moorse2SVG Project 
+1. **Zoom-In Method**:  
+   By zooming in on the sine wave graphic, the inherent dots and dashes of a Morse code message become distinguishable. The visual inspection method tests a solver’s attention to detail.
 
-```/posts/steganography-moorse-converter/``` to find the original Moorse string hardcoded into the post.
+2. **Direct Project Reference**:  
+   Alternatively, users may refer to the [Moorse2SVG Project](/posts/steganography-moorse-converter/) to retrieve the original Morse string that is hardcoded within the associated post.
 
-### Decode the Moorse Code to reveal a partial flag.
+#### Decoding the Message
 
-```"..-. .-.. .- --. ---... -.-- --- ..- - ..- -... . .-.-.- -.-. --- -- -..-. .-- .- - -.-. .... ..--.. ...- -.. --.- .-- ....- .-- ----. .-- --. -..- -.-. --.-"```
+Once the Morse code is observed, solvers are presented with the following code block to decode:
 
-#### Extract and Fix the URL
+```plaintext
+"..-. .-.. .- --. ---... -.-- --- ..- - ..- -... . .-.-.- -.-. --- -- -..-. .-- .- - -.-. .... ..--.. ...- -.. --.- .-- ....- .-- ----. .-- --. -..- -.-. --.-"
+```
 
-```FLAG:YOUTUBE.COM/WATCH?VDQW4W9WGXCQ```
+Upon converting the Morse code into text, the message reveals a partial flag:
 
-```https://www.youtube.com/watch?v=dQw4w9WgXcQ```
+```plaintext
+FLAG:YOUTUBE.COM/WATCH?VDQW4W9WGXCQ
+```
 
-### Interpret the rick roll to be a dead end and continue.
+When completed with the missing “=” (per the alt text hint), the correct URL emerges:
 
+```plaintext
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
+```
 
-## Part 2: Library of Bable (real)
+The ultimate result of this part is the classic rick roll, indicating that this portion of the challenge is a playful dead end meant to misdirect while setting the stage for the deeper puzzle that follows.
 
-### About Page meta tag
+---
 
-#### View the about page source to discover a meta tag named hint with a base64 encoded message.
+### Part 2: Library of Bable (Real)
+
+#### Exploring the About Page
+
+The genuine challenge begins on the about page, where participants must view the source to uncover a meta tag containing a Base64-encoded hint:
 
 ```xml
 <meta name="hint" content="Q29udGVtcGxhdGUgdGhlIHZhcmlhdGlvbiBvZiB0aGUgMjMgbGV0dGVycw==">
 ```
 
-Decoded: ```Contemplate the variation of the 23 letters```
+When decoded, this string instructs solvers to:
 
-#### Google search the string to find the library of bable.
+```plaintext
+Contemplate the variation of the 23 letters
+```
 
-Recognize the need for an index. 
+This provocative statement leads participants to consider a broader context—the challenge leverages the concept behind Borges’ “Library of Babel,” a vast repository where every possible permutation of letters exists.
 
-### SVG metadata
+#### Following the Clues to the Library
 
-#### Inspect the contents of the svg file. 
+The next step is to perform a Google search using the decoded string to locate the Library of Babel. Recognizing the need for an index, participants are further guided to interact with the online version of the library:
 
-Discover doule base64 encoded ```CDATA``` in a custom metadata sub tag called ```bable:book```
+```plaintext
+https://libraryofbabel.info/browse.cgi
+```
+
+#### Decoding the SVG Metadata
+
+Within the challenge’s SVG file lies a trove of encoded data. By inspecting the metadata embedded in the file, participants discover a custom subtag named `babel:book` that encloses a doubly encoded Base64 (CDATA) segment:
 
 ```xml
- <metadata>
+<metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
@@ -76,42 +114,41 @@ Discover doule base64 encoded ```CDATA``` in a custom metadata sub tag called ``
       ]]>
    </babel:book>
  </metadata>
- ```
+```
 
- #### Decode Double b64 Encoding
+After decoding the two layers, the message unveils a crucial navigation directive:
 
-```csharp
+```plaintext
 Volume 32 on Shelf 2 of Wall 3 of Hexagon
 
 0ldnqb3amg2kioos4h464kr4pqi2v4mufqce81ao8t35om9s4vkyz8rjdzp36lrucm4pvyfepo8rf06hi4sed0h4r5pgwnw47ffs8yvzxwegp9gf490tdg1glk8eivhcwplozua9ikzfoj8tl0qmkceb4zxk0z1mi3ssbn2nwbpxhjz2ws159op5xjhmwzgjbsxfrmpwdgvmyefoomwnjc9kpssj4s55ot5u0eygacbacuexb2zr66tlwmndcuoxh56mwmmb8qxfollqt5rr9nfp20r3iwad2iib4fl6l9fm9p8fss14ksefw8nfulzab2stqfpx7wt9n3grve4p2ngx2qd5293kdq9x5zwd6kt2rtwi39k5ijcad8ujvqtynjx7405z6vi6rdm3az3aojro6edv4ow9paodtvh7vtjnafh7gdntpncppr52nzda4go30fri0zghqaw0qwk36jio9z4g0fzzj8ks104n11oqodv67jnb2kvbr9pu5qogtleywyqputi00xgpv8zjv9dcdv1rz43zm8xyy0csidk1cwgnp07g49a2kiodouw99iwiy5ccdzv7xiyeitpakr4fbso2ki2cmqx3tr46cm8ex50zrobby22un5ytsiy3aoxuwcvyh53zt27pir8ak31gs6mjl50vqcnod29i17yukeq3sugmg013fhiymljncx05emww8u86w13hd1loa7e07jn9ibrat0255tal6cvkzv8cgrt4bk4th6s8t678r1b2pvh0qwg725frddoruowj4veh2pyaatee4hj0aah2xbudhnwcyj034bbkpasanz666z9p2wrmt9546nyai05bycet0wxkl7omuaw33zhar95yhl4gbqxpqe60jvl4vg2ruio57tjotm0wzuheac07v8y9enbsiyloa79bwi43yu2c5sqtxa8ftb3hg8mg1q38tgdv2bedjndncjbjeiiyr253ua7u20g5l24jywglakxihlsozfh0i47mhj2zlh8juo65zn92thjuzoupnifpzdfkt64ohmi5923hcytupwk7of8zxnqm7hzlsdqskggzoedp7pde3sqiotlnvundpgzkilh9gorh6y352guzj99l7w86qv3lw0hmrujieav53u42ob6bpl9ge1bagye2im5fjm2if8wz3vy8l9hbjj4d0u4otgcqssjimevsbgv5wu5d1e3nc29urib3csgwzoly7h71sdc2wx977lektp0slpoh55u353cycsqlr9ega8w32xpgv23q1qwtliemblm13zvy9kuac7j7hxzbnw1dho3ew57ga8628ujsgbkgdougqkl71gbghyuwloeix0t8gn0dxzpuiegfxckg43lba7ezw1l29lnkc72j8ld8u18x38aa09vxsvtzyfqln4klfk3g2m9q3llow0y0alm2040h401okh8g4bxwfq2v3uptdwu9w4mi87rwn98tf5ivbozg1m0ov4zalsrsixxvrvt7luq4skbv4094kaksjmj9ymcnoo0mqx2vsjttgotz2d9p7o5v829aurnrp09o96a6t93ue3vobum50rldxfx3s08f3oeveug38aqqredab2r72npos1sp5zwjffh1j9wo7xjh0ep77vhowetmc4qjfui4seesbi6hp8rdt1ga7oueiqn42m5n2ip6ig785z1kjt6f9j1efu8k7buq00tt4fppdpy0flvv2bl8k7t94ytigjj0kieo4d750h48afvvurfzsq7hu6oatfa5mtg1j5e9tzf80hvo1utlhjytf1s21trp9o5dilsb66w5cgdfohgwb5ordo47kinzsktr6lb0joc79zbp0bt3hit7z8j7pck05x1c8r480u293ubn1ys4o6s0sdul1o5bp5flx7on9zlsgrg59bfz82gjvtmo3xy1jhm0k373zmnwmk3d6oy3yy5ub02po2xm00c9vrkofy2exgrs958dad4jhtrhnarhp2kpjf7i3vcoxwqnk8dcedafenhni8xpfoygv2315ac5b0afemc3g8a25ykohab1d7ej51go43ag6axf4ipyoy89s71gy2qacu22abdrglqvcbzcnh4keh3lw06ex8nhj4nb64ss25p9jg7i2vw4o11nhkxfytntdm3lavdlon9v6418nnuttmsppngwhj1w5j2eszmes645s2631e9ubl10i2ls7hii4chova6rwnsh3j3ar09iem44zcoi4ssj9srz92q4gbk4cuwabrccw38cm7ugkmtwsjqifgrjcgn972sk2i2hbmz90fxli7qc6ctqf35aha7bex2buv0kxhfv73jqk6en9xoa5nfibu4b2qtfba4hopabq2px55fmxdlssdeq4dsreguk18lzhdnmygvpxk9wfrskr141w3onajzarm8tl488lbi38n891zi5js2iqd50h438f81bi7dyt3ikujv5oqzhl1xzihooy3s3d42sosa3ywqj3cbxu3180di7n2b6mf30f3422s026elf7twy2130dac0g5it2hs35ris8971cm0wb3wz0bgawue3amcgxxwyc76t50iidc35x8c65kuwu1o94k3ip5ww0qnad73x89a270f3cn065svpadn898f5uk0gj54w3nchwlcfgrg8m6u84uzwg0ghpryhmolj2try2pf69343oftsljno4hpnp4krvgjxsbsm44vmmqe6c2evrue18j9jexrtge0apkukjcq99hnrpuywxp783nh5n669h2e5dxre8vgsodtt7nj6c1cvb367g7h25qoqpkmgpamewghp64wkmgdohjmg4ql8hx6o26zoa471a9e41wg2jyf1rz5ru9ah6rt1x1zopnac7sbp04ydhg5wajjdx3dydblffh1851y85p1ell30ni4s560esufgt3rdoqbwnlvom8jc96qrltnymftqedjq4wjbbwtafkfj26hnl2qm6ik4l94mt5z8o0jfx6ec0443gazsvepwy3g6q6gzodt3pk83n78oact5osnhpwvx5ld0bzpyybgdn3hypfc85lty6k8fidalbc1fbfxnn7hopa9gkkka29hdjtnd8nus6y4lxqwym6apjy843bkwq52qqt3fjcr2s6i39ncgnd0004d5xcctp3h3lz2kyn24kcf64s8ar6xced1d58tfh1lxeh1ua86f8wvpbafw7c
 ```
-### Find the Page Clue
 
-```<meta name="page" content="󠁐󠁡󠁧󠁥󠀺󠀠󠁯󠁮󠁥󠀭󠁴󠁷󠁯󠀭󠁯󠁮󠁥">```
+This line instructs participants on where to focus their search within the Library of Babel’s structured system, indicating a specific "Volume" that holds the next clue.
 
-OR
+#### Decoding the Invisible Unicode Page Number
 
-```<p><code>󠁐󠁡󠁧󠁥󠀺󠀠󠁯󠁮󠁥󠀭󠁴󠁷󠁯󠀭󠁯󠁮󠁥</code></p>```
+Additional clues can be gathered by searching for the hidden text within the page’s elements.
+This aspect of the challenge focuses on identifying and decoding a piece of text hidden using Unicode "invisible" tag characters. These characters belong to a reserved range (U+E0000 to U+E007F) and are typically not rendered in normal text displays.
 
-#### Extract the hidden text as per this guide
+The Page number can be found in two places:
 
-[Hidden-in-Plain-Hex](https://github.com/aalex954/Hidden-in-Plain-Hex)
+```html
+<meta name="page" content="">
+```
 
-### Find the passage in the Library of Bable
+or within code blocks like:
 
-Using the clue from the about page meta tag earlier:
+```html
+<p><code></code></p>
+```
 
-```https://libraryofbabel.info/browse.cgi```
+To assist, a helpful guide is referenced:  
+[Hidden-in-Plain-Hex](https://github.com/aalex954/Hidden-in-Plain-Hex). This resource explains methods to extract and interpret hidden hexadecimal data embedded within plain text.
 
-#### Navigate to the Volume on the Shelf of the Wall of the Hexagon
+#### Final Reward
 
-Use the PAGE (121) found earlier 
-
-**OR**
-
-#### Brute Force By Page
-
-### Conclusion
+After following the breadcrumb trail—inspecting elements, decoding Base64 layers, discovering the hidden text, and navigating to the correct volume in the digital library—solvers arrive at a final passage. The concluding message, presented in a terminal-styled code block, echoes an inspirational quote:
 
 ```bash
 Thanks for digging around. For searching. For finding...........................
