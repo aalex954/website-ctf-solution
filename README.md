@@ -2,7 +2,9 @@
 
 ## Summary
 
-This write-up covers two puzzles embedded in my personal website. The first one looks like the “main” challenge: an oscilloscope-style SVG that can be interpreted as Morse code. A small hint in the image’s alt text calls out a missing “=” character, and decoding the message ultimately lands you on a familiar YouTube URL — it’s a deliberate rickroll and a dead end.
+This write-up covers two puzzles embedded in my personal website. 
+
+The first one is an oscilloscope-style SVG that can be interpreted as Morse code. A small hint in the image’s alt text calls out a missing “=” character, and decoding the message ultimately lands you on a familiar YouTube URL. It’s a deliberate rickroll and a "decoy" lol.
 
 The real puzzle starts on the About page. Viewing source reveals a Base64-encoded hint (“Contemplate the variation of the 23 letters”), which is intended to steer you toward the Library of Babel. From there, the remaining breadcrumbs are hidden in the SVG itself: metadata includes a custom babel:book tag with CDATA that’s Base64-encoded (and then encoded again). Solving it is mostly careful inspection plus straightforward decoding, with the trick being knowing where to look and not getting stuck on the decoy.
 
@@ -16,8 +18,7 @@ The entry point is an oscilloscope-style SVG. If you inspect the `<img>` tag, th
 
 From there, you can pull the Morse in two ways: either zoom in and visually separate dots/dashes from the waveform, or jump straight to the referenced Moorse2SVG project to grab the underlying Morse string.
 
-When you decode the Morse, it resolves to a partial “flag” that’s really just a YouTube path. Adding the missing piece (the `=` mentioned in the alt text) turns it into the full URL — and it’s the classic rickroll. That’s the punchline: this whole branch is meant to waste a little time and build confidence before the real puzzle starts.
-
+When you decode the Morse, it resolves to a partial “flag” that’s really just a YouTube path. Adding the missing piece (the `=` mentioned in the alt text) turns it into the full URL. It’s the classic rickroll.
 
 
 ### Library of Babel (real path)
@@ -28,7 +29,7 @@ That line is the nudge toward the Library of Babel concept, and the write-up poi
 
 The more concrete navigation clue is embedded in the SVG itself. Inside the SVG metadata there’s a custom `babel:book` tag containing a Base64 payload that’s been encoded twice. Decoding both layers yields the location cue: **“Volume 32 on Shelf 2 of Wall 3 of Hexagon.”**
 
-From there, the remaining missing piece is the page number, which is hidden using Unicode “tag” characters (invisible characters from the U+E0000–U+E007F range). The write-up notes you can find this hidden value either in a `<meta name="page" ...>` element or embedded inside otherwise-empty code blocks, and it links out to a reference guide (“Hidden-in-Plain-Hex”) for extracting/reading that kind of hidden text.
+From there, the remaining missing piece is the page number, which is hidden using Unicode “tag” characters (invisible characters from the U+E0000–U+E007F range). You can also find this hidden value either in a `<meta name="page" ...>` element or embedded inside otherwise-empty code blocks in the about page HTML.
 
 Once you combine the Library coordinates with the extracted page number and follow the breadcrumbs through the Library interface, the trail ends with a terminal-styled message and an Einstein quote as the final “reward” text.
 
@@ -78,7 +79,7 @@ Now apply the alt-text hint. The only thing you need to “add back” is the mi
 https://www.youtube.com/watch?v=dQw4w9WgXcQ
 ```
 
-Following it lands on the classic rickroll. That’s the point: Part 1 is a decoy—fun, believable, and intentionally complete—so you don’t waste time trying to force more meaning out of it before moving on to the real trail in Part 2.
+Following it lands on the classic rickroll. The "decoy" flag.
 
 ---
 
